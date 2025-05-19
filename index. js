@@ -1,0 +1,29 @@
+const { Client, GatewayIntentBits } = require("discord.js");
+require("dotenv").config();
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ],
+});
+
+client.once("ready", () => {
+  console.log(`Logged in as ${client.user.tag}`);
+});
+
+client.on("messageCreate", (message) => {
+  if (message.author.bot) return;
+
+  if (message.content === "!ping") {
+    message.reply("Pong!");
+  }
+
+  if (message.content === "!coin") {
+    const result = Math.random() < 0.5 ? "Heads" : "Tails";
+    message.reply(result);
+  }
+});
+
+client.login(process.env.TOKEN);
